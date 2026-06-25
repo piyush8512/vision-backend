@@ -1,6 +1,9 @@
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
+import pinoHttp from "pino-http";
+import { logger } from "./config/logger.js";
+
 
 const app = express();
 
@@ -10,6 +13,11 @@ app.use(
   cors({
     origin: true,
     credentials: true,
+  })
+);
+app.use(
+  pinoHttp({
+    logger,
   })
 );
 
