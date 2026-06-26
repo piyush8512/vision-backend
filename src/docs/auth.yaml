@@ -1,0 +1,129 @@
+openapi: 3.1.0
+
+info:
+  title: Authentication API
+  version: 1.0.0
+
+paths:
+
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fullName
+                - email
+                - password
+              properties:
+                fullName:
+                  type: string
+                  example: Piyush Prajapati
+
+                email:
+                  type: string
+                  format: email
+                  example: piyush@gmail.com
+
+                password:
+                  type: string
+                  format: password
+                  example: Password@123
+
+      responses:
+        "201":
+          description: User created successfully
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+
+                password:
+                  type: string
+                  format: password
+
+      responses:
+        "200":
+          description: Login successful
+
+  /auth/me:
+    get:
+      tags:
+        - Authentication
+      summary: Get current user
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: Current authenticated user
+
+  /auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: Logout successful
+
+  /auth/forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: Send password reset email
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+
+      responses:
+        "200":
+          description: Password reset email sent
+
+  /auth/google:
+    get:
+      tags:
+        - Authentication
+      summary: Login using Google
+
+      responses:
+        "200":
+          description: Google OAuth URL
